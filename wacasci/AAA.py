@@ -30,6 +30,8 @@ are rectangles, and so is 80x80. you want squares, use 2xwidth, or 1/2 height
 or something like that. 
 
 Opening very large frames both takes a long time to render, and may hang the program
+./app.py 100 50 runs fine on my machine lol
+
 """
 
 class AsciiArtApp:
