@@ -4,12 +4,12 @@
 #include <string.h>
 // Prolly port this to python...
 // Ok look, read a file and roll the text out to the screen. 
-// Usage: fileRoll filename
+// Usage: fileRoll filename speed
 
-void rollOut(char *startup);
+void rollOut(char *startup, int s);
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        printf("Usage: %s filename\n", argv[0]);
+    if (argc != 3) {
+        printf("Usage: %s filename speed\n", argv[0]);
         return 1;
     }
 
@@ -18,7 +18,11 @@ int main(int argc, char *argv[]) {
         printf("Error: could not open file '%s'\n", argv[1]);
         return 1;
     }
-
+    int s = atoi(argv[2]);
+    	if (s<1){
+		   s=1;
+		}
+		
     // Find the length of the file
     fseek(fp, 0L, SEEK_END);
     long filesize = ftell(fp);
@@ -37,13 +41,14 @@ int main(int argc, char *argv[]) {
     fclose(fp);
     // Print the contents of the buffer
     //printf("%s", buffer);
-    rollOut(buffer);
+    rollOut(buffer,s);
     free(buffer);
     return 0;
 }
 
-void rollOut(char *startup){
-	usleep(6000);
+void rollOut(char *startup ,int s){
+
+	usleep(6000*s);
 	int size = strlen(startup);
 	for (int a = 0; a < size; a++){
 		if(startup[a]=='\\'&& startup[a+1]=='n'){
@@ -52,7 +57,7 @@ void rollOut(char *startup){
 			}
     	setvbuf(stdout, NULL, _IONBF, 0);
 		printf("%c", startup[a]);
-		usleep(10000);
+		usleep(10000*s);
 	}
 	printf("\n");
 }
