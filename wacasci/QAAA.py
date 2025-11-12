@@ -12,10 +12,13 @@ So you can trace out ascii arts.
 Dont do any diabolical stuff with this app pls.
 
 """
+# the repeat characters effectively lowers sensitivity, making it easer to draw
+draw_string = "...oooOOO000OOOooo..."
+draw_string1 = "...,,,---'''"
+draw_string2 = "[[[]]]|||///\\\\"
+draw_string3 = "XXXLLLLJJJJKKK####"
 
-draw_string = ".oO0Oo."
-draw_string = "...,,,---'''"
-draw_string = "[[[]]]|||///\\\\"
+
 
 class AsciiArtWindow(QWidget):
     def __init__(self, width=80, height=80):
@@ -107,6 +110,15 @@ class AsciiArtWindow(QWidget):
             self.text_color = QColor("magenta")
         elif key == Qt.Key_0:
             self.text_color = QColor("white")
+        elif key == Qt.Key_H:
+            self.draw_string = draw_string
+        elif key == Qt.Key_J:
+            self.draw_string = draw_string1
+        elif key == Qt.Key_K:
+            self.draw_string = draw_string2
+        elif key == Qt.Key_L:
+            self.draw_string = draw_string3
+            
         self.update()
 
 
