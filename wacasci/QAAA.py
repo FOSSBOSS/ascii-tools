@@ -17,6 +17,8 @@ draw_string = "...oooOOO000OOOooo..."
 draw_string1 = "...,,,---'''"
 draw_string2 = "[[[]]]|||///\\\\"
 draw_string3 = "XXXLLLLJJJJKKK####"
+draw_string4 = "    " # Erase lol
+
 
 
 
@@ -118,6 +120,8 @@ class AsciiArtWindow(QWidget):
             self.draw_string = draw_string2
         elif key == Qt.Key_L:
             self.draw_string = draw_string3
+        elif key == Qt.Key_E:
+            self.draw_string = draw_string4
             
         self.update()
 
