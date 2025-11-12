@@ -14,6 +14,8 @@ Dont do any diabolical stuff with this app pls.
 """
 
 draw_string = ".oO0Oo."
+draw_string = "...,,,---'''"
+draw_string = "[[[]]]|||///\\\\"
 
 class AsciiArtWindow(QWidget):
     def __init__(self, width=80, height=80):
@@ -110,5 +112,16 @@ class AsciiArtWindow(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = AsciiArtWindow(80, 80)
+    if len(sys.argv) < 2:
+        window = AsciiArtWindow(80, 80)
+    elif len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} [width height]")
+        sys.exit(1)
+    else:
+        x = int(sys.argv[1]) # type cast
+        y = int(sys.argv[2]) # type cast
+        window = AsciiArtWindow(x, y)
+        
+        
+        
     sys.exit(app.exec_())
