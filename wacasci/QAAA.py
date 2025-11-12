@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
 from PyQt5.QtGui import QPainter, QFont, QColor
 from PyQt5.QtCore import Qt, QPoint
 from datetime import datetime
@@ -13,11 +13,11 @@ Dont do any diabolical stuff with this app pls.
 
 """
 # the repeat characters effectively lowers sensitivity, making it easer to draw
-draw_string = "...oooOOO000OOOooo..."
-draw_string1 = "...,,,---'''"
-draw_string2 = "[[[]]]|||///\\\\"
-draw_string3 = "XXXLLLLJJJJKKK####"
-draw_string4 = "    " # Erase lol
+draw_string = "...oooOOO000OOOooo..." # H
+draw_string1 = "...,,,---'''"         # J
+draw_string2 = "[[[]]]|||///\\\\"     # K
+draw_string3 = "XXXLLLLJJJJKKK####"   # L
+draw_string4 = "    "                 # Erase lol
 
 
 
@@ -92,6 +92,25 @@ class AsciiArtWindow(QWidget):
                 for row in self.char_grid:
                     f.write("".join(row) + "\n")
             print(f"ASCII art saved to {filename}")
+        # add file open:: introduce all sorts of potential issues.
+        # first issue: window size is smaller than text size. Window needs resizing. 
+        # second issue: Key_S doesnt save opened file, but ascii_date_time.txt
+        #'''
+        #elif key == Qt.Key_O:
+        #    # Open file dialog
+        #    fname, _ = QFileDialog.getOpenFileName(self, "Open ASCII File", "", "Text Files (*.txt);;All Files (*)")
+        #    if fname:
+        #        try:
+        #            with open(fname, "r", encoding="ascii", errors="ignore") as f:
+        #                lines = f.readlines()
+        #            for y, line in enumerate(lines[:self.height_chars]):
+        #               for x, char in enumerate(line.rstrip("\n")[:self.width_chars]):
+        #                   self.char_grid[y][x] = char
+        #            print(f"Loaded {fname}")
+        #            self.update()
+        #        except Exception as e:
+        #            print(f"Error loading file: {e}")        
+        #'''    
         elif key == Qt.Key_1:
             self.text_color = QColor("black")
         elif key == Qt.Key_2:
