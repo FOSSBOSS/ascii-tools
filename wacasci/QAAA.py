@@ -16,9 +16,26 @@ Dont do any diabolical stuff with this app pls.
 draw_string = "...oooOOO000OOOooo..." # H
 draw_string1 = "...,,,---'''"         # J
 draw_string2 = "[[[]]]|||///\\\\"     # K
-draw_string3 = "XXXLLLLJJJJKKK####"   # L
+#draw_string3 = "XXXLLLLJJJJKKK####"   # L
+draw_string3 = "HACKTHEMATRIX"   # L
 draw_string4 = "    "                 # Erase lol
+# Expriament with unicode chars
+# draws fine, doesnt save properly
+draw_string5 = "•••→→→———≥≥≥✔✔✔"   # U-nicode
+draw_string6 = "▀▀▀▄▄▄▐▐▐▌"   # U-nicode2
+draw_string7 = "┌┌┌┐┐┐└└└┘┘┘├├├┤┤┤┬┬┬┴┴┴┼┼┼"   # U-nicode3
+draw_string8 = "╔╔╔╗╗╚╚╚╝╝╝"   # U-nicode4
+'''
+Traceback (most recent call last):
+  File "/home/m/Downloads/ascii-tools-main/wacasci/QAAA.py", line 99, in keyPressEvent
+    f.write("".join(row) + "\n")
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 3-4: ordinal not in range(128)
 
+'''
+# other features to add:
+# press T for text typing. escape to drawing by pressing any pallet key including E.
+
+# Have the Draw_string in the window frame title. 
 
 
 
@@ -95,6 +112,8 @@ class AsciiArtWindow(QWidget):
         # add file open:: introduce all sorts of potential issues.
         # first issue: window size is smaller than text size. Window needs resizing. 
         # second issue: Key_S doesnt save opened file, but ascii_date_time.txt
+        # potential fixes: read MAX line len of file, scale window.  
+        # delete trailing whitespace after each line could simplify things. 
         #'''
         #elif key == Qt.Key_O:
         #    # Open file dialog
@@ -133,14 +152,20 @@ class AsciiArtWindow(QWidget):
             self.text_color = QColor("white")
         elif key == Qt.Key_H:
             self.draw_string = draw_string
+            self.setWindowTitle(f"draw_string")
+            self.setWindowTitle(f"ASCII Art Generator {draw_string}")
         elif key == Qt.Key_J:
             self.draw_string = draw_string1
+            self.setWindowTitle(f"ASCII Art Generator {draw_string1}")
         elif key == Qt.Key_K:
             self.draw_string = draw_string2
+            self.setWindowTitle(f"ASCII Art Generator {draw_string2}")
         elif key == Qt.Key_L:
             self.draw_string = draw_string3
+            self.setWindowTitle(f"ASCII Art Generator {draw_string3}")
         elif key == Qt.Key_E:
             self.draw_string = draw_string4
+            self.setWindowTitle(f"ASCII Art Generator {draw_string4}")
             
         self.update()
 
