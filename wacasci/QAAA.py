@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt, QPoint
 from datetime import datetime
 """
 The limit of tkinter is transparency. So you have to use QT.
-This app is the same functionaly as AAA.py, but offers transparency.
+This app was the same functionaly as AAA.py, but offers transparency.
 So you can trace out ascii arts. 
 
 Dont do any diabolical stuff with this app pls.
@@ -17,14 +17,14 @@ draw_string = "...oooOOO000OOOooo..." # H
 draw_string1 = "...,,,---'''"         # J
 draw_string2 = "[[[]]]|||///\\\\"     # K
 #draw_string3 = "XXXLLLLJJJJKKK####"   # L
-draw_string3 = "HACKTHEMATRIX"   # L
+draw_string3 = "HACKTHEMATRIX"        # L
 draw_string4 = "    "                 # Erase lol
 # Expriament with unicode chars
 # draws fine, doesnt save properly
 draw_string5 = "•••→→→———≥≥≥✔✔✔"   # U-nicode
-draw_string6 = "▀▀▀▄▄▄▐▐▐▌"   # U-nicode2
-draw_string7 = "┌┌┌┐┐┐└└└┘┘┘├├├┤┤┤┬┬┬┴┴┴┼┼┼"   # U-nicode3
-draw_string8 = "╔╔╔╗╗╚╚╚╝╝╝"   # U-nicode4
+draw_string6 = "▀▀▀▄▄▄▐▐▐▌"        # U-nicode2
+draw_string7 = "┌┌┐└┘├┤┬┬┴┼"       # U-nicode3
+draw_string8 = "╔╔╔╗╗╚╚╚╝╝╝"       # U-nicode4
 '''
 Traceback (most recent call last):
   File "/home/m/Downloads/ascii-tools-main/wacasci/QAAA.py", line 99, in keyPressEvent
@@ -34,8 +34,7 @@ UnicodeEncodeError: 'ascii' codec can't encode characters in position 3-4: ordin
 '''
 # other features to add:
 # press T for text typing. escape to drawing by pressing any pallet key including E.
-
-# Have the Draw_string in the window frame title. 
+# how that migth work: get last known cordinate, start typing there.
 
 
 
@@ -50,6 +49,7 @@ class AsciiArtWindow(QWidget):
         self.draw_index = 0
         self.char_width = 8
         self.char_height = 14
+        self.current_filename = None
 
         # Window setup
         self.setWindowTitle("ASCII Art Generator (Qt Transparent)")
@@ -104,11 +104,28 @@ class AsciiArtWindow(QWidget):
             self.draw_index = 0
             self.update()
         elif key == Qt.Key_S:
+			# delete trailing whitespace
             filename = f"ascii_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
             with open(filename, "w", encoding="ascii") as f:
                 for row in self.char_grid:
-                    f.write("".join(row) + "\n")
+                    line = "".join(row)
+                    # If a line contains any non-space character, trim trailing whitespace
+                    if any(c != ' ' for c in line):
+                        out = line.rstrip()
+                    else:
+                        # Completely empty line --> preserve ONE single space
+                        out = " "
+                    f.write(out + "\n")
             print(f"ASCII art saved to {filename}")
+
+
+        #elif key == Qt.Key_S:
+        #    filename = f"ascii_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        #    with open(filename, "w", encoding="ascii") as f:
+        #        for row in self.char_grid:
+        #            f.write("".join(row) + "\n")
+        #    print(f"ASCII art saved to {filename}")
+            
         # add file open:: introduce all sorts of potential issues.
         # first issue: window size is smaller than text size. Window needs resizing. 
         # second issue: Key_S doesnt save opened file, but ascii_date_time.txt
@@ -165,8 +182,11 @@ class AsciiArtWindow(QWidget):
             self.setWindowTitle(f"ASCII Art Generator {draw_string3}")
         elif key == Qt.Key_E:
             self.draw_string = draw_string4
-            self.setWindowTitle(f"ASCII Art Generator {draw_string4}")
-            
+            self.setWindowTitle("ASCII Art Generator ERRASING")
+        #elif key == Qt.Key_T:
+            # allow typing text until escape key is pressed.
+            #Qt.Key_Escape:
+                
         self.update()
 
 
