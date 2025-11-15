@@ -6,32 +6,32 @@ os.environ["QT_LOGGING_RULES"] = "*.warning=false" # STFU Qt warnings
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QInputDialog
 from PyQt5.QtGui import QPainter, QFont, QColor
 from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtWidgets import QShortcut
+from PyQt5.QtGui import QKeySequence
 from datetime import datetime
 
 # the repeat characters effectively lowers sensitivity, making it easer to draw
 draw_string = "...oooOOO000OOOooo..." # H
 draw_string1 = "...,,,---'''"         # J
 draw_string2 = "[[[]]]|||///\\\\"     # K
-#draw_string3 = "XXXLLLLJJJJKKK####"   # L
 draw_string3 = "HACKTHEMATRIX"        # L
 draw_string4 = "    "                 # Erase lol
-# Expriament with unicode chars: QUAA.py unicode derivative, keep this project all ascii. 
-'''
-draw_string5 = "•••→→→———≥≥≥✔✔✔"   # U-nicode
-draw_string6 = "▀▀▀▄▄▄▐▐▐▌"        # U-nicode2
-draw_string7 = "┌┌┐└┘├┤┬┬┴┼"       # U-nicode3
-draw_string8 = "╔╔╔╗╗╚╚╚╝╝╝"       # U-nicode4
-'''
 # other features to add:
 # press T for text typing. escape to drawing by pressing any pallet key including E.
 # how that migth work: get last known cordinate, start typing there.
 
-# wasd and arrow keys could be better for drawing, and ctrl+s would be a more conventional save mechanism
+# wasd and arrow keys could be better for drawing
+# use mouse for navigation without drawing, though youll have to sind the current position
+
+# Todo: add open file Ctrl+O method
 
 
 class AsciiArtWindow(QWidget):
     def __init__(self, width=80, height=80):
         super().__init__()
+        # Ctrl+S function
+        QShortcut(QKeySequence("Ctrl+S"), self, activated=self.save_file)
+        
         self.width_chars = width
         self.height_chars = height
         self.char_grid = [[' '] * width for _ in range(height)]
@@ -54,6 +54,22 @@ class AsciiArtWindow(QWidget):
         # Monospace font
         self.font = QFont("Courier", 10)
         self.show()
+
+    def save_file(self):
+        filename = f"ascii_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+
+        with open(filename, "w", encoding="ascii") as f:
+            for row in self.char_grid:
+                line = "".join(row)
+                # If a line contains any non-space character, trim trailing whitespace
+                if any(c != ' ' for c in line):
+                    out = line.rstrip()
+                else:
+					# Completely empty line --> preserve ONE single space
+                    out = " "
+                f.write(out + "\n")
+
+        print(f"ASCII art saved to: {filename}")
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -108,21 +124,7 @@ class AsciiArtWindow(QWidget):
             self.char_grid = [[' '] * self.width_chars for _ in range(self.height_chars)]
             self.draw_index = 0
             self.update()
-        elif key == Qt.Key_S:
-            # delete trailing whitespace
-            filename = f"ascii_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-            with open(filename, "w", encoding="ascii") as f:
-                for row in self.char_grid:
-                    line = "".join(row)
-                    # If a line contains any non-space character, trim trailing whitespace
-                    if any(c != ' ' for c in line):
-                        out = line.rstrip()
-                    else:
-                        # Completely empty line --> preserve ONE single space
-                        out = " "
-                    f.write(out + "\n")
-            print(f"ASCII art saved to {filename}")
-   
+        # Onscreen colors
         elif key == Qt.Key_1:
             self.text_color = QColor("black")
         elif key == Qt.Key_2:
@@ -143,6 +145,8 @@ class AsciiArtWindow(QWidget):
             self.text_color = QColor("magenta")
         elif key == Qt.Key_0:
             self.text_color = QColor("white")
+        
+        # Drawing characters     
         elif key == Qt.Key_H:
             self.draw_string = draw_string
             self.setWindowTitle(f"draw_string")
