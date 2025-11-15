@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
+import os
+os.environ["QT_LOGGING_RULES"] = "*.warning=false" # STFU Qt warnings
+
+from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QInputDialog
 from PyQt5.QtGui import QPainter, QFont, QColor
 from PyQt5.QtCore import Qt, QPoint
 from datetime import datetime
@@ -12,16 +15,18 @@ draw_string2 = "[[[]]]|||///\\\\"     # K
 #draw_string3 = "XXXLLLLJJJJKKK####"   # L
 draw_string3 = "HACKTHEMATRIX"        # L
 draw_string4 = "    "                 # Erase lol
-# Expriament with unicode chars
+# Expriament with unicode chars: QUAA.py unicode derivative, keep this project all ascii. 
+'''
 draw_string5 = "•••→→→———≥≥≥✔✔✔"   # U-nicode
 draw_string6 = "▀▀▀▄▄▄▐▐▐▌"        # U-nicode2
 draw_string7 = "┌┌┐└┘├┤┬┬┴┼"       # U-nicode3
 draw_string8 = "╔╔╔╗╗╚╚╚╝╝╝"       # U-nicode4
-
+'''
 # other features to add:
 # press T for text typing. escape to drawing by pressing any pallet key including E.
 # how that migth work: get last known cordinate, start typing there.
 
+# wasd and arrow keys could be better for drawing, and ctrl+s would be a more conventional save mechanism
 
 
 class AsciiArtWindow(QWidget):
@@ -84,7 +89,19 @@ class AsciiArtWindow(QWidget):
             char = self.draw_string[self.draw_index % len(self.draw_string)]
             self.char_grid[y][x] = char
             self.draw_index += 1
+    
+    def populate(self, s):
+        # Fill the entire area with repeating text
+        if not s:
+            return
+        length = len(s)
+        index = 0
+        for y in range(self.height_chars):
+            for x in range(self.width_chars):
+                self.char_grid[y][x] = s[index % length]
+                index += 1
 
+    
     def keyPressEvent(self, event):
         key = event.key()
         if key == Qt.Key_R:
@@ -142,10 +159,15 @@ class AsciiArtWindow(QWidget):
         elif key == Qt.Key_E:
             self.draw_string = draw_string4
             self.setWindowTitle("ASCII Art Generator ERRASING")
-        #elif key == Qt.Key_T:
-            # allow typing text until escape key is pressed.
-            #Qt.Key_Escape:
+        elif key == Qt.Key_P:
+            # Populate the screen with text. window,lable
+            string, ok = QInputDialog.getText(self, "Populate Text area", "type the Characters to fill area: ")
+            if ok and string:
+                self.populate(string)
+                self.update()
+            
         elif key == Qt.Key_B:
+			# set or unset background
             if self.BG_Flag == False:
                 self.BG_Flag = True
                 self.setAttribute(Qt.WA_TranslucentBackground, self.BG_Flag)
@@ -153,7 +175,7 @@ class AsciiArtWindow(QWidget):
             else:
                 self.BG_Flag = False
                 self.setAttribute(Qt.WA_TranslucentBackground, self.BG_Flag)
-                
+              
                 
         self.update()
 
@@ -169,6 +191,10 @@ if __name__ == "__main__":
     else:
         x = int(sys.argv[1]) # type cast
         y = int(sys.argv[2]) # type cast
+        if x < 1:
+            x = 1
+        if y < 1:
+            y = 10 
         window = AsciiArtWindow(x, y)   
         
     sys.exit(app.exec_())
