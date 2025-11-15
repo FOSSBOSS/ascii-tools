@@ -4,14 +4,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
 from PyQt5.QtGui import QPainter, QFont, QColor
 from PyQt5.QtCore import Qt, QPoint
 from datetime import datetime
-"""
-The limit of tkinter is transparency. So you have to use QT.
-This app was the same functionaly as AAA.py, but offers transparency.
-So you can trace out ascii arts. 
 
-Dont do any diabolical stuff with this app pls.
-
-"""
 # the repeat characters effectively lowers sensitivity, making it easer to draw
 draw_string = "...oooOOO000OOOooo..." # H
 draw_string1 = "...,,,---'''"         # J
@@ -20,18 +13,11 @@ draw_string2 = "[[[]]]|||///\\\\"     # K
 draw_string3 = "HACKTHEMATRIX"        # L
 draw_string4 = "    "                 # Erase lol
 # Expriament with unicode chars
-# draws fine, doesnt save properly
 draw_string5 = "•••→→→———≥≥≥✔✔✔"   # U-nicode
 draw_string6 = "▀▀▀▄▄▄▐▐▐▌"        # U-nicode2
 draw_string7 = "┌┌┐└┘├┤┬┬┴┼"       # U-nicode3
 draw_string8 = "╔╔╔╗╗╚╚╚╝╝╝"       # U-nicode4
-'''
-Traceback (most recent call last):
-  File "/home/m/Downloads/ascii-tools-main/wacasci/QAAA.py", line 99, in keyPressEvent
-    f.write("".join(row) + "\n")
-UnicodeEncodeError: 'ascii' codec can't encode characters in position 3-4: ordinal not in range(128)
 
-'''
 # other features to add:
 # press T for text typing. escape to drawing by pressing any pallet key including E.
 # how that migth work: get last known cordinate, start typing there.
@@ -56,7 +42,8 @@ class AsciiArtWindow(QWidget):
         self.resize(self.width_chars * self.char_width, self.height_chars * self.char_height)
 
         # Transparent background while keeping the frame
-        self.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.BG_Flag = True       # background flag
+        self.setAttribute(Qt.WA_TranslucentBackground, self.BG_Flag)
         self.setAutoFillBackground(False)
 
         # Monospace font
@@ -66,8 +53,9 @@ class AsciiArtWindow(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setFont(self.font)
-
-        # Transparent background — don't fill rect
+        if not self.BG_Flag:
+            painter.fillRect(self.rect(), QColor("white"))
+        # Transparent background don't fill rect
         painter.setRenderHint(QPainter.TextAntialiasing)
         painter.setPen(self.text_color)
 
@@ -104,7 +92,7 @@ class AsciiArtWindow(QWidget):
             self.draw_index = 0
             self.update()
         elif key == Qt.Key_S:
-			# delete trailing whitespace
+            # delete trailing whitespace
             filename = f"ascii_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
             with open(filename, "w", encoding="ascii") as f:
                 for row in self.char_grid:
@@ -117,36 +105,7 @@ class AsciiArtWindow(QWidget):
                         out = " "
                     f.write(out + "\n")
             print(f"ASCII art saved to {filename}")
-
-
-        #elif key == Qt.Key_S:
-        #    filename = f"ascii_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-        #    with open(filename, "w", encoding="ascii") as f:
-        #        for row in self.char_grid:
-        #            f.write("".join(row) + "\n")
-        #    print(f"ASCII art saved to {filename}")
-            
-        # add file open:: introduce all sorts of potential issues.
-        # first issue: window size is smaller than text size. Window needs resizing. 
-        # second issue: Key_S doesnt save opened file, but ascii_date_time.txt
-        # potential fixes: read MAX line len of file, scale window.  
-        # delete trailing whitespace after each line could simplify things. 
-        #'''
-        #elif key == Qt.Key_O:
-        #    # Open file dialog
-        #    fname, _ = QFileDialog.getOpenFileName(self, "Open ASCII File", "", "Text Files (*.txt);;All Files (*)")
-        #    if fname:
-        #        try:
-        #            with open(fname, "r", encoding="ascii", errors="ignore") as f:
-        #                lines = f.readlines()
-        #            for y, line in enumerate(lines[:self.height_chars]):
-        #               for x, char in enumerate(line.rstrip("\n")[:self.width_chars]):
-        #                   self.char_grid[y][x] = char
-        #            print(f"Loaded {fname}")
-        #            self.update()
-        #        except Exception as e:
-        #            print(f"Error loading file: {e}")        
-        #'''    
+   
         elif key == Qt.Key_1:
             self.text_color = QColor("black")
         elif key == Qt.Key_2:
@@ -186,12 +145,22 @@ class AsciiArtWindow(QWidget):
         #elif key == Qt.Key_T:
             # allow typing text until escape key is pressed.
             #Qt.Key_Escape:
+        elif key == Qt.Key_B:
+            if self.BG_Flag == False:
+                self.BG_Flag = True
+                self.setAttribute(Qt.WA_TranslucentBackground, self.BG_Flag)
+                
+            else:
+                self.BG_Flag = False
+                self.setAttribute(Qt.WA_TranslucentBackground, self.BG_Flag)
+                
                 
         self.update()
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    
     if len(sys.argv) < 2:
         window = AsciiArtWindow(80, 80)
     elif len(sys.argv) != 3:
@@ -200,8 +169,6 @@ if __name__ == "__main__":
     else:
         x = int(sys.argv[1]) # type cast
         y = int(sys.argv[2]) # type cast
-        window = AsciiArtWindow(x, y)
-        
-        
+        window = AsciiArtWindow(x, y)   
         
     sys.exit(app.exec_())
