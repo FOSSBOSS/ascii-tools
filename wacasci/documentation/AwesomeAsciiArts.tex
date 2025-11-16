@@ -1,0 +1,133 @@
+\documentclass[12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{titlesec}
+
+\geometry{margin=1in}
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\title{\textbf{Awesome ASCII Arts}\\[0.3em]
+	\large A Lightweight Qt-based ASCII Drawing Tool}
+\author{Sensored Hacker}
+\date{}
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{abstract}
+	Q: When is a text editor \emph{not} a text editor?  \\
+	A:When it becomes an awesome ASCII art drawing application.
+
+	\end{abstract}
+	
+	\section*{Why?}
+	This tool exists for one reason: \textbf{fun}.  
+	The application provides a simple, enjoyable way to draw ASCII art using the mouse or a tablet, trace images, and export clean text files. It is open-source, and requires no special hardware.
+	\section*{Features}
+	\begin{itemize}[leftmargin=2em]
+		\item Mouse or tablet drawing
+		\item Save drawings as plain text files
+		\item A customizable panel of brushes
+		\item Transparent window for tracing on-screen images
+		\item On-screen color options for visibility
+		\item Selectable character brushes 
+		\item Open-source Python/Qt code—modify freely
+	\end{itemize}
+	
+	\section*{Default Key Bindings}
+	\begin{center}
+		\begin{tabular}{>{\bfseries}l l}
+			T & Brush 0 (``\texttt{...oooOOO000OOOooo...}'') \\
+			Y & Brush 1 (``\texttt{...,,,---'''}'') \\
+			U & Brush 2 (``\texttt{[[[]]]|||///\textbackslash\textbackslash}'' ) \\
+			I & Brush 3 (``\texttt{HACKTHEMATRIX}'') \\
+			J & Brush 4 (``\texttt{]]} '') \\
+			K & Brush 5 (``\texttt{boob} '') \\
+			L & Brush 6 (``\texttt{??} '') \\
+			M & Brush 7 (``\texttt{---} '') \\
+			N & Brush 9 (``\texttt{...} '') \\
+			E & Eraser \\
+			R & Reset canvas \\
+			P & Populate entire canvas with text \\
+			B & Toggle background/transparency \\
+			Ctrl+S & Save ASCII file \\
+			H & Open help window \\
+			1--9 & Change on-screen text color \\
+			0 & White text color \\
+			Mouse & Draw characters \\
+		\end{tabular}
+	\end{center}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.6\textwidth]{help.png}
+		\caption{Help window overlay with transparent window in the background}
+	\end{figure}
+	
+	\section*{Default Behavior}
+	Launching the application with no arguments opens an 80×80 character transparent window.  
+	Drawing begins immediately with the default brush. You may begin drawing with your mouse, tablet, arrow keys, WASD keys or all of the above.
+	
+	\section*{Command-Line Arguments}
+	\begin{itemize}
+		\item \texttt{python QAAA.py WIDTH HEIGHT}  
+		Opens a window of the specified character dimensions.
+	\end{itemize}
+	
+	Example:
+	\begin{quote}
+		\texttt{python QAAA.py 120 60}
+	\end{quote}
+	
+	\section*{Future Development}
+	Planned enhancements:
+	\begin{itemize}
+		\item A more comprehensive control panel.
+		\item \textbf{stamps:} multi-character matrices. 
+		\item In-place text editing
+
+	\end{itemize}
+	
+	\section*{Compatibility}
+	Although developed and tested on Linux, the application should run on any platform supported by Python 3 and Qt5, including:
+	\begin{itemize}
+		\item GNU/Linux
+		\item macOS
+		\item Windows
+		\item BSD variants
+	\end{itemize}
+	
+	\section*{System Requirements}
+	\begin{itemize}
+		\item Python 3.x
+		\item PyQt5 
+	\end{itemize}
+	
+	\section*{Active Keys:}
+	
+		\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.8\textwidth]{q.png}
+		\caption{Current key bindings}
+		%mostly to impress on me why we need a full feature control panel
+	\end{figure}
+
+    \section{Conclusion:}
+    QAAA: Qt based Ascii Arts app or whatever its called is a text editor that wants to draw. It has a unique take on what priority features are. 
+	%\section{Source Code}
+	%You may include code listings here using the \texttt{listings} or \texttt{minted} packages.
+	
+	\vfill
+	\begin{center}
+		\textit{Have fun creating awesome ASCII art!}
+	\end{center}
+	
+\end{document}

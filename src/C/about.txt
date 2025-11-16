@@ -1,0 +1,6 @@
+about files:
+dialog.c: compile, and pass arguments to type out fast.
+
+fileRoll.c : Compile, and pass in a file and a number to tpye to screem at a certain speed.
+
+lolk.c: RGB Text
