@@ -98,7 +98,7 @@ class AsciiArtWindow(QWidget):
         layout = QVBoxLayout()
         label = QLabel()
         label.setText(      
-            "Awesome ASCII Art Generator — Key Bindings\n\n"
+            "Awesome ASCII Art - Key Bindings\n\n"
             "Drawing:\n"
             "  T  - Brush 1 (oooOOO...)\n"
             "  Y  - Brush 2 (,,,---''')\n"
