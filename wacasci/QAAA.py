@@ -112,7 +112,7 @@ class AsciiArtWindow(QWidget):
             "  P            - Populate entire area with text\n"
             "  B            - Toggle background\n"
             "  Ctrl+S       - Save\n"
-            #"  Ctrl+O       - Open\n"
+            "  Ctrl+O       - Open\n"
             "\n"
             "Color Palette:\n"
             "  1-9          - Change color\n"
