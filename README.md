@@ -36,7 +36,7 @@ QAAA
 Defualts to a transparent view, 80 x 80 characters. Curent selections are shown in the 
 window title.
 
-   
+ <img src="https://github.com/FOSSBOSS/ascii-tools/blob/main/wacasci/documentation/imgs/e1.png" alt="A multi window display of what QAAA.p looks like in opertion.">   
 </pre>
 
 ![lolk](https://github.com/user-attachments/assets/6433d1da-7f04-4aaa-9f2e-7ccc33f57e77)
