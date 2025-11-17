@@ -231,6 +231,7 @@ class AsciiArtWindow(QWidget):
             "  R            - Reset canvas\n"
             "  P            - Populate entire area with text\n"
             "  B            - Toggle background\n"
+            "  C            - Toggle Cursor\n"
             "  Ctrl+S       - Save\n"
             "  Ctrl+O       - Open\n"
             "  Ctrl+B       - Edit brushes\n"
