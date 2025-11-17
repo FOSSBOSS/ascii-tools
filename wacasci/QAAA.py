@@ -17,12 +17,16 @@ draw_string0 = "...oooOOO000OOOooo..." # T
 draw_string1 = "...,,,---'''"          # Y
 draw_string2 = "[[[]]]|||///\\\\"      # U
 draw_string3 = "HACKTHEMATRIX"         # I
-draw_string4 = "//"
-draw_string5 = "]]||"
-draw_string6 = "\\\\"
-draw_string7 = ">>><<<" 
-draw_string8 = "-=+" 
+draw_string4 = "//"                    # J
+draw_string5 = "]]||"                  # K
+draw_string6 = "\\\\"                  # L
+draw_string7 = ">>><<<"                # M
+draw_string8 = "-=+"                   # N
 draw_string9 = "    "                  # E Erase
+
+
+# Stamps: predefined text based tool tips
+
 
 class AsciiArtWindow(QWidget):
     def __init__(self, width=80, height=80):
@@ -34,7 +38,9 @@ class AsciiArtWindow(QWidget):
         QShortcut(QKeySequence("Ctrl+O"), self, activated=self.open_file)
         # Ctrl+B Edit Brushes
         QShortcut(QKeySequence("Ctrl+B"), self, activated=self.brush_editor)
-
+        # Ctrl+G Control Panel
+        #QShortcut(QKeySequence("Ctrl+G"), self, activated=self.control_panel)
+        
         # Brushes
         self.draw_string0 = draw_string0
         self.draw_string1 = draw_string1
@@ -74,7 +80,11 @@ class AsciiArtWindow(QWidget):
         self.BG_Flag = True
         self.setAttribute(Qt.WA_TranslucentBackground, self.BG_Flag)
         self.setAutoFillBackground(False)
-
+        
+        # Show Cursor
+        self.Show_Cursor = False
+        
+        
         # Monospace font
         self.font = QFont("Courier", 10)
         self.show()
@@ -306,22 +316,18 @@ class AsciiArtWindow(QWidget):
             for x in range(self.width_chars):
                 char = self.char_grid[y][x]
                 if char.strip():
-                    painter.drawText(
-                        x * self.char_width,
-                        (y + 1) * self.char_height,
-                        char
-                    )
+                    painter.drawText( x * self.char_width, (y + 1) * self.char_height, char)
 
-        # Optional: draw cursor rectangle
-        '''
-        painter.setPen(QColor("red"))
-        painter.drawRect(
-            self.cursor_x * self.char_width,
-            self.cursor_y * self.char_height,
-            self.char_width,
-            self.char_height
-        )
-        '''
+        if self.Show_Cursor:
+            # Optional: draw cursor rectangle
+            painter.setPen(QColor("red"))
+            painter.drawRect(
+                self.cursor_x * self.char_width,
+                self.cursor_y * self.char_height,
+                self.char_width,
+                self.char_height
+            )
+        
 
     def resizeEvent(self, event):
         self.update_grid()
@@ -450,7 +456,10 @@ class AsciiArtWindow(QWidget):
         elif key == Qt.Key_B:
             self.BG_Flag = not self.BG_Flag
             self.setAttribute(Qt.WA_TranslucentBackground, self.BG_Flag)
-
+        
+        elif key == Qt.Key_C:
+            self.Show_Cursor = not self.Show_Cursor
+          
         self.update()
 
 
@@ -459,6 +468,8 @@ if __name__ == "__main__":
 
     if len(sys.argv) < 2:
         window = AsciiArtWindow(80, 80)
+        print("Optional")
+        print(f"Usage: {sys.argv[0]} [width height]")
     elif len(sys.argv) != 3:
         print(f"Usage: {sys.argv[0]} [width height]")
         sys.exit(1)
@@ -472,3 +483,19 @@ if __name__ == "__main__":
         window = AsciiArtWindow(x, y)
 
     sys.exit(app.exec_())
+
+'''
+ok gotta think about what a whole ass control panel might include, 
+and how it might work. Im tempted to just build it into the brush-editor
+
+change font
+change font size
+other tools?
+import brush
+import stamps
+enable the cursor. 
+zoom +/-
+import images as a background.
+
+
+'''
