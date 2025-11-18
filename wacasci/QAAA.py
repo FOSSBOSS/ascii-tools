@@ -41,19 +41,29 @@ class AsciiArtWindow(QWidget):
         # Ctrl+G Control Panel
         #QShortcut(QKeySequence("Ctrl+G"), self, activated=self.control_panel)
         
-        
+        # you can kinda make this work despite the akward appearance.
         self.glyphs = {
-        "Tile1": r"""
-    \  \/  /
-    /  /\  \
-    """.lstrip("\n"),
+          "Tile1": r'''
+   _.--""--._        
+ ."          ".     
+| .   `      ` |    
+\(            )/   
+ \)__.    _._(/  
+  /   0..0   \  
+ |__.' vv '._/ 
+    l!!!!!!!l    
+    \_ iiii_/ 
+  '''.lstrip("\n"),
 
-        "Tile2": r"""
-       __
-     /    \
-     \____/
-    """.lstrip("\n"),
+          "Tile2": r'''
+  
+  			  
+
+			  
+  '''.lstrip("\n"),
     }
+        # press E, then C, then click mouse around.
+        # C-cursor will show you where the top right corner is.
         
         
         # Tile Conditionals
@@ -534,7 +544,7 @@ if __name__ == "__main__":
     sys.exit(app.exec_())
 
 '''
-ok gotta think about what a whole as control panel might include, 
+ok gotta think about what a whole ass control panel might include, 
 and how it might work. Im tempted to just build it into the brush-editor
 *print 
 change font
