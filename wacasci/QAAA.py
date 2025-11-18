@@ -14,7 +14,7 @@ from datetime import datetime
 
 
 draw_string0 = "...oooOOO000OOOooo..." # T
-draw_string1 = "...,,,---'''"          # Y
+draw_string1 = "01010100 010"          # Y
 draw_string2 = "[[[]]]|||///\\\\"      # U
 draw_string3 = "HACKTHEMATRIX"         # I
 draw_string4 = "//"                    # J
@@ -40,6 +40,29 @@ class AsciiArtWindow(QWidget):
         QShortcut(QKeySequence("Ctrl+B"), self, activated=self.brush_editor)
         # Ctrl+G Control Panel
         #QShortcut(QKeySequence("Ctrl+G"), self, activated=self.control_panel)
+        
+        
+        self.glyphs = {
+        "Tile1": r"""
+    \  \/  /
+    /  /\  \
+    """.lstrip("\n"),
+
+        "Tile2": r"""
+       __
+     /    \
+     \____/
+    """.lstrip("\n"),
+    }
+        
+        
+        # Tile Conditionals
+        # you need to update the event.pos() by h,w of the tile. .. however that might be done.
+        # wasd, arrows work, and if you set the curror you can kinda guess where stuff is.
+        self.active_tile = None
+        self.tile_dragging = False
+
+        
         
         # Brushes
         self.draw_string0 = draw_string0
@@ -231,7 +254,7 @@ class AsciiArtWindow(QWidget):
             "  R            - Reset canvas\n"
             "  P            - Populate entire area with text\n"
             "  B            - Toggle background\n"
-            "  C            - Toggle Cursor\n"
+            "  C            - Toggle Show Cursor\n"
             "  Ctrl+S       - Save\n"
             "  Ctrl+O       - Open\n"
             "  Ctrl+B       - Edit brushes\n"
@@ -362,7 +385,24 @@ class AsciiArtWindow(QWidget):
             for x in range(self.width_chars):
                 self.char_grid[y][x] = s[index % length]
                 index += 1
+    
+    # ---------- Draw Glpyphs  ----------
+    # triple quotes have trailing newline. 
+    # r raw string / tripple quotes to presurve white space, and special chars dont need escapes                                       
+    def draw_tile(self, name):
+        if name not in self.glyphs:
+            return
 
+        lines = self.glyphs[name].split("\n")
+        for dy, line in enumerate(lines):
+            for dx, ch in enumerate(line):
+                x = self.cursor_x + dx
+                y = self.cursor_y + dy
+                if 0 <= x < self.width_chars and 0 <= y < self.height_chars:
+                    self.char_grid[y][x] = ch
+        self.update()
+                                  
+                                      
     # ---------- Key handling ----------
 
     def keyPressEvent(self, event):
@@ -460,6 +500,14 @@ class AsciiArtWindow(QWidget):
         
         elif key == Qt.Key_C:
             self.Show_Cursor = not self.Show_Cursor
+        
+        elif key == Qt.Key_G:
+            self.setWindowTitle(f"Tile 1")
+            self.draw_tile("Tile1")
+        elif key == Qt.Key_V:
+            self.setWindowTitle(f"Tile 1")
+            self.draw_tile("Tile2")
+        
           
         self.update()
 
@@ -486,9 +534,9 @@ if __name__ == "__main__":
     sys.exit(app.exec_())
 
 '''
-ok gotta think about what a whole ass control panel might include, 
+ok gotta think about what a whole as control panel might include, 
 and how it might work. Im tempted to just build it into the brush-editor
-
+*print 
 change font
 change font size
 other tools?
