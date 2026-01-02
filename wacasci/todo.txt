@@ -1,0 +1,49 @@
+ok, added text vectors. the code is getting really long though, and I got a long list of things 
+I want to add. 
+
+0. Break out classes to libraries. put sub features in classes. put glyphs in a class, core functions in a class, controls in a class and so on.
+
+1. add highlight / select text 
+2. add copy paste.
+3. add inline text entry more like a proper text editor.
+
+4. make a full control panel. 
+--include things like how files should be saved, 
+--variables for font, charsize, H/V spaceing. 
+   These are fun to play with, but harder to edit in code. 
+
+5. figure out how to make frame generation.
+6. figure out animation.
+7. frame gen -> script gen.
+
+8. add an option to save file under original name.
+
+9. reverse (negative slope) vectors should use the opposite char of the possitive counterpart. 
+
+10. add some command line args like file open. in the case of file open, we would either reject H,W args, or ignore them, 
+becuase the file being opend has its own H,W.
+
+11. figure out how to perform glyph miriors in context of character matrix.
+
+12. remove lstrip("\n") from ghlyphs.
+
+13. simplfy keybindings? Im already forgetting the bindings. its too many. Im out of keys, and still have more features to add.
+
+14. Undo key cntl+z ?
+
+15. find / replace
+
+16. ..damn I forgot
+
+#######################
+
+Notes::
+I think getting the classes busted out to libraries is top priority. 
+Theres a lot of uniqueness here, and more will come, so I should start managing that better. 
+Glyphs, core, special functions(like mirror, or log vectors, framing, scripting), might be the best canideates. 
+
+In the character matrix perspective, every file is GLYPH.
+
+# I opened a binary with this thing, it sorta renders but you cant save as a binary. .. 
+I mean when ever Im done done, bless is in a sorry state, an I could really use a nice hex editor.
+
