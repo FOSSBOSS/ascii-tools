@@ -1,0 +1,5 @@
+# ignore scratch folder anywhere in the repo
+scratch/
+
+# ignore notes file at repo root only
+/notes.txt
