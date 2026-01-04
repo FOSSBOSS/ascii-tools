@@ -3,3 +3,6 @@ scratch/
 
 # ignore notes file at repo root only
 /notes.txt
+
+# fff cache files 
+__pycache__/
